@@ -1,0 +1,22 @@
+{
+  "version": 8,
+  "configurePresets": [
+    {
+      "name": "config-base",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/_bld-${presetName}",
+      "cacheVariables": {
+        "BUILD_SHARED_LIBS": "OFF",
+        "LUA_USE_READLINE": "OFF",
+        "LUA_USE_CURSES": "OFF",
+        "XP_NAMESPACE": "xpro"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-base",
+      "hidden": true
+    }
+  ]
+}
