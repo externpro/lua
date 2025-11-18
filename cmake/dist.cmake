@@ -142,7 +142,7 @@ macro ( install_executable )
                               SOVERSION ${DIST_VERSION} )
     endif ()
     install ( TARGETS ${_file} EXPORT ${targetsFile} RUNTIME DESTINATION ${INSTALL_BIN}
-              COMPONENT Runtime CONFIGURATIONS Release )
+              COMPONENT ${LUA_COMPONENT_RT} CONFIGURATIONS Release )
   endforeach()
 endmacro ()
 
@@ -160,16 +160,10 @@ macro ( install_library )
                               SOVERSION ${DIST_VERSION} )
     endif ()
     install ( TARGETS ${_file} EXPORT ${targetsFile}
-              RUNTIME DESTINATION ${INSTALL_BIN} COMPONENT Runtime
-              LIBRARY DESTINATION ${INSTALL_LIB} COMPONENT Runtime 
-              ARCHIVE DESTINATION ${INSTALL_LIB} COMPONENT Library )
+              RUNTIME DESTINATION ${INSTALL_BIN} COMPONENT ${LUA_COMPONENT_RT}
+              LIBRARY DESTINATION ${INSTALL_LIB} COMPONENT ${LUA_COMPONENT_RT}
+              ARCHIVE DESTINATION ${INSTALL_LIB} COMPONENT ${LUA_COMPONENT_LIB} )
   endforeach()
-  if(DEFINED XP_NAMESPACE)
-    set(nameSpace NAMESPACE ${XP_NAMESPACE}::)
-  endif()
-  if(NOT DEFINED XP_INSTALL_CMAKEDIR)
-    set(XP_INSTALL_CMAKEDIR ${INSTALL_SHARE}/cmake)
-  endif()
   install(EXPORT ${targetsFile} DESTINATION ${XP_INSTALL_CMAKEDIR} ${nameSpace})
 endmacro ()
 
@@ -197,10 +191,10 @@ macro ( install_header )
   foreach ( _file ${_ARG_DEFAULT_ARGS} )
     if ( IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${_file}" )
       install ( DIRECTORY ${_file} DESTINATION ${INSTALL_INC}/${_ARG_INTO}
-                COMPONENT Header ${_ARG_PATTERN} ${_ARG_REGEX} )
+                COMPONENT ${LUA_COMPONENT_HDR} ${_ARG_PATTERN} ${_ARG_REGEX} )
     else ()
       install ( FILES ${_file} DESTINATION ${INSTALL_INC}/${_ARG_INTO}
-                COMPONENT Header )
+                COMPONENT ${LUA_COMPONENT_HDR} )
     endif ()
   endforeach()
 endmacro ()
@@ -220,10 +214,10 @@ macro ( install_data )
     if ( IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${_file}" )
       install ( DIRECTORY ${_file}
                 DESTINATION ${INSTALL_DATA}/${_ARG_INTO}
-                COMPONENT Data ${_ARG_PATTERN} ${_ARG_REGEX} )
+                COMPONENT ${LUA_COMPONENT_DATA} ${_ARG_PATTERN} ${_ARG_REGEX} )
     else ()
       install ( FILES ${_file} DESTINATION ${INSTALL_DATA}/${_ARG_INTO}
-                COMPONENT Data )
+                COMPONENT ${LUA_COMPONENT_DATA} )
     endif ()
   endforeach()
 endmacro ()
@@ -242,10 +236,10 @@ macro ( install_doc )
   foreach ( _file ${_ARG_DEFAULT_ARGS} )
     if ( IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${_file}" )
       install ( DIRECTORY ${_file} DESTINATION ${INSTALL_DOC}/${_ARG_INTO}
-                COMPONENT Documentation ${_ARG_PATTERN} ${_ARG_REGEX} )
+                COMPONENT ${LUA_COMPONENT_DOC} ${_ARG_PATTERN} ${_ARG_REGEX} )
     else ()
       install ( FILES ${_file} DESTINATION ${INSTALL_DOC}/${_ARG_INTO}
-                COMPONENT Documentation )
+                COMPONENT ${LUA_COMPONENT_DOC} )
     endif ()
   endforeach()
 endmacro ()
@@ -264,10 +258,10 @@ macro ( install_example )
   foreach ( _file ${_ARG_DEFAULT_ARGS} )
     if ( IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${_file}" )
       install ( DIRECTORY ${_file} DESTINATION ${INSTALL_EXAMPLE}/${_ARG_INTO}
-                COMPONENT Example ${_ARG_PATTERN} ${_ARG_REGEX} )
+                COMPONENT ${LUA_COMPONENT_EX} ${_ARG_PATTERN} ${_ARG_REGEX} )
     else ()
       install ( FILES ${_file} DESTINATION ${INSTALL_EXAMPLE}/${_ARG_INTO}
-                COMPONENT Example )
+                COMPONENT ${LUA_COMPONENT_EX} )
     endif ()
   endforeach()
 endmacro ()
@@ -286,10 +280,10 @@ macro ( install_test )
   foreach ( _file ${_ARG_DEFAULT_ARGS} )
     if ( IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${_file}" )
       install ( DIRECTORY ${_file} DESTINATION ${INSTALL_TEST}/${_ARG_INTO}
-                COMPONENT Test ${_ARG_PATTERN} ${_ARG_REGEX} )
+                COMPONENT ${LUA_COMPONENT_TEST} ${_ARG_PATTERN} ${_ARG_REGEX} )
     else ()
       install ( FILES ${_file} DESTINATION ${INSTALL_TEST}/${_ARG_INTO}
-                COMPONENT Test )
+                COMPONENT ${LUA_COMPONENT_TEST} )
     endif ()
   endforeach()
 endmacro ()
@@ -308,16 +302,17 @@ macro ( install_foo )
   foreach ( _file ${_ARG_DEFAULT_ARGS} )
     if ( IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${_file}" )
       install ( DIRECTORY ${_file} DESTINATION ${INSTALL_FOO}/${_ARG_INTO}
-                COMPONENT Other ${_ARG_PATTERN} ${_ARG_REGEX} )
+                COMPONENT ${LUA_COMPONENT_OTH} ${_ARG_PATTERN} ${_ARG_REGEX} )
     else ()
       install ( FILES ${_file} DESTINATION ${INSTALL_FOO}/${_ARG_INTO}
-                COMPONENT Other )
+                COMPONENT ${LUA_COMPONENT_OTH} )
     endif ()
   endforeach()
 endmacro ()
 
 ## CTest defaults
 
+if(NOT DEFINED XP_NAMESPACE)
 ## CPack defaults
 set ( CPACK_GENERATOR "ZIP" )
 set ( CPACK_STRIP_FILES TRUE )
@@ -326,3 +321,4 @@ set ( CPACK_PACKAGE_VERSION "${DIST_VERSION}")
 set ( CPACK_PACKAGE_VENDOR "LuaDist" )
 set ( CPACK_COMPONENTS_ALL Runtime Library Header Data Documentation Example Other )
 include ( CPack )
+endif()
