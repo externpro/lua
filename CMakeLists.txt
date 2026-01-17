@@ -7,8 +7,6 @@
 cmake_minimum_required ( VERSION 2.8...3.31 )
 set(CMAKE_PROJECT_TOP_LEVEL_INCLUDES .devcontainer/cmake/xproinc.cmake)
 project ( lua C )
-include(GNUInstallDirs)
-include(xpflags)
 include ( cmake/dist.cmake )
 
 ## CONFIGURATION
@@ -148,29 +146,14 @@ add_executable ( luac ${SRC_CORE} ${SRC_LIB} ${SRC_LUAC} src/luac.rc )
 target_link_libraries ( luac ${LIBS} )
 
 set(targetsFile ${PROJECT_NAME}-targets)
-if(NOT DEFINED XP_INSTALL_CMAKEDIR)
-  set(XP_INSTALL_CMAKEDIR ${CMAKE_INSTALL_DATADIR}/cmake)
-endif()
 if(DEFINED XP_NAMESPACE)
-  set(nameSpace NAMESPACE ${XP_NAMESPACE}::)
-  xpPackageDevel(TARGETS_FILE ${targetsFile} EXE ${XP_NAMESPACE}::lua LIBRARIES ${XP_NAMESPACE}::liblua)
-  set(LUA_COMPONENT_RT devel)
-  set(LUA_COMPONENT_LIB devel)
-  set(LUA_COMPONENT_HDR devel)
-  set(LUA_COMPONENT_DATA devel)
-  set(LUA_COMPONENT_DOC devel)
-  set(LUA_COMPONENT_EX devel)
-  set(LUA_COMPONENT_TEST devel)
-  set(LUA_COMPONENT_OTH devel)
-else()
-  set(LUA_COMPONENT_RT Runtime)
-  set(LUA_COMPONENT_LIB Library)
-  set(LUA_COMPONENT_HDR Header)
-  set(LUA_COMPONENT_DATA Data)
-  set(LUA_COMPONENT_DOC Documentation)
-  set(LUA_COMPONENT_EX Example)
-  set(LUA_COMPONENT_TEST Test)
-  set(LUA_COMPONENT_OTH Other)
+  xpExternPackage(NAMESPACE ${XP_NAMESPACE}
+    TARGETS_FILE ${targetsFile} EXE lua LIBRARIES liblua
+    BASE v5.2.3 XPDIFF "patch"
+    WEB "http://www.lua.org/" UPSTREAM "github.com/lua/lua"
+    DESC "a powerful, fast, lightweight, embeddable scripting language"
+    LICENSE "[MIT](http://www.lua.org/license.html 'MIT License')"
+    )
 endif()
 
 # On windows a variant of the lua interpreter without console output needs to be built
