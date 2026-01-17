@@ -164,6 +164,12 @@ macro ( install_library )
               LIBRARY DESTINATION ${INSTALL_LIB} COMPONENT Runtime 
               ARCHIVE DESTINATION ${INSTALL_LIB} COMPONENT Library )
   endforeach()
+  if(DEFINED XP_NAMESPACE)
+    set(nameSpace NAMESPACE ${XP_NAMESPACE}::)
+  endif()
+  if(NOT DEFINED XP_INSTALL_CMAKEDIR)
+    set(XP_INSTALL_CMAKEDIR ${INSTALL_SHARE}/cmake)
+  endif()
   install(EXPORT ${targetsFile} DESTINATION ${XP_INSTALL_CMAKEDIR} ${nameSpace})
 endmacro ()
 
