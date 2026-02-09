@@ -167,10 +167,10 @@ macro ( install_library )
   if(DEFINED XP_NAMESPACE)
     set(nameSpace NAMESPACE ${XP_NAMESPACE}::)
   endif()
-  if(NOT DEFINED XP_INSTALL_CMAKEDIR)
-    set(XP_INSTALL_CMAKEDIR ${INSTALL_SHARE}/cmake)
+  if(NOT DEFINED CMAKE_INSTALL_CMAKEDIR)
+    set(CMAKE_INSTALL_CMAKEDIR ${INSTALL_SHARE}/cmake)
   endif()
-  install(EXPORT ${targetsFile} DESTINATION ${XP_INSTALL_CMAKEDIR} ${nameSpace})
+  install(EXPORT ${targetsFile} DESTINATION ${CMAKE_INSTALL_CMAKEDIR} ${nameSpace})
 endmacro ()
 
 # helper function for various install_* functions, for PATTERN/REGEX args.
