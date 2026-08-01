@@ -4,8 +4,7 @@
 # For details see the COPYRIGHT file distributed with LuaDist.
 # Please note that the package source code is licensed under its own license.
 
-cmake_minimum_required ( VERSION 2.8...3.31 )
-set(CMAKE_PROJECT_TOP_LEVEL_INCLUDES .devcontainer/cmake/xproinc.cmake)
+cmake_minimum_required ( VERSION 2.8...4.3 )
 project ( lua C )
 include ( cmake/dist.cmake )
 
@@ -146,10 +145,10 @@ add_executable ( luac ${SRC_CORE} ${SRC_LIB} ${SRC_LUAC} src/luac.rc )
 target_link_libraries ( luac ${LIBS} )
 
 set(targetsFile ${PROJECT_NAME}-targets)
-if(DEFINED XP_NAMESPACE)
-  xpExternPackage(NAMESPACE ${XP_NAMESPACE}
-    TARGETS_FILE ${targetsFile} EXE lua LIBRARIES liblua
-    BASE v5.2.3 XPDIFF "patch"
+if(COMMAND xpExternPackage)
+  xpExternPackage(TARGETS_FILE ${targetsFile}
+    EXE lua LIBRARIES liblua DEFAULT_TARGETS liblua
+    BASE v5.2.3 XPDIFF "patch" FIND_XPRO_CMAKE
     WEB "http://www.lua.org/" UPSTREAM "github.com/lua/lua"
     DESC "a powerful, fast, lightweight, embeddable scripting language"
     LICENSE "[MIT](http://www.lua.org/license.html 'MIT License')"
