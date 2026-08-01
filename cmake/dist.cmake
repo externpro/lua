@@ -164,13 +164,10 @@ macro ( install_library )
               LIBRARY DESTINATION ${INSTALL_LIB} COMPONENT Runtime 
               ARCHIVE DESTINATION ${INSTALL_LIB} COMPONENT Library )
   endforeach()
-  if(DEFINED XP_NAMESPACE)
-    set(nameSpace NAMESPACE ${XP_NAMESPACE}::)
-  endif()
   if(NOT DEFINED CMAKE_INSTALL_CMAKEDIR)
     set(CMAKE_INSTALL_CMAKEDIR ${INSTALL_SHARE}/cmake)
   endif()
-  install(EXPORT ${targetsFile} DESTINATION ${CMAKE_INSTALL_CMAKEDIR} ${nameSpace})
+  install(EXPORT ${targetsFile} DESTINATION ${CMAKE_INSTALL_CMAKEDIR} NAMESPACE ${CMAKE_PROJECT_NAME}::)
 endmacro ()
 
 # helper function for various install_* functions, for PATTERN/REGEX args.
@@ -318,7 +315,7 @@ endmacro ()
 
 ## CTest defaults
 
-if(NOT DEFINED XP_NAMESPACE)
+if(NOT COMMAND xpExternPackage)
 ## CPack defaults
 set ( CPACK_GENERATOR "ZIP" )
 set ( CPACK_STRIP_FILES TRUE )
