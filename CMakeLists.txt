@@ -148,7 +148,7 @@ set(targetsFile ${PROJECT_NAME}-targets)
 if(COMMAND xpExternPackage)
   xpExternPackage(TARGETS_FILE ${targetsFile}
     EXE lua LIBRARIES liblua DEFAULT_TARGETS liblua
-    BASE v5.2.3 XPDIFF "patch" FIND_XPRO_CMAKE
+    BASE v5.2.3 XPDIFF "patch"
     WEB "http://www.lua.org/" UPSTREAM "github.com/lua/lua"
     DESC "a powerful, fast, lightweight, embeddable scripting language"
     LICENSE "[MIT](http://www.lua.org/license.html 'MIT License')"
